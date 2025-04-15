@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+        }
+        input {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin: 10px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <input type="email" id="register-email" placeholder="Email">
+        <input type="password" id="register-password" placeholder="Password">
+        <button id="register-button">Register</button>
+        <p id="register-message" class="message"></p>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAq1nKP3DObMbxxNHi3f1y6yEmAxZV-nfA",
+            authDomain: "pilketos24.firebaseapp.com",
+            databaseURL: "https://pilketos24-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "pilketos24",
+            storageBucket: "pilketos24.appspot.com",
+            messagingSenderId: "439227857159",
+            appId: "1:439227857159:web:1bdc12a9fb6886c9e7eda2",
+            measurementId: "G-JHMWN0YWDP"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        // Register functionality
+        document.getElementById('register-button').addEventListener('click', async () => {
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const messageElement = document.getElementById('register-message');
+
+            if (!email || !password) {
+                messageElement.textContent = 'Email and password are required!';
+                messageElement.style.color = 'red';
+                return;
+            }
+
+            try {
+                // Create user in Firebase Authentication
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Save user details in Firebase Realtime Database
+                const userRef = ref(database, 'users/' + user.uid);
+                await set(userRef, {
+                    email: user.email,
+                    createdAt: new Date().toISOString(),
+                });
+
+                // Display success message
+                messageElement.textContent = 'Registration successful!';
+                messageElement.style.color = 'green';
+
+                // Redirect to index.html after a short delay
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000); // Redirects after 2 seconds
+            } catch (error) {
+                // Display error message
+                messageElement.textContent = error.message;
+                messageElement.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page - Book Management</title>
+    <link rel="stylesheet" href="admin.css"> <!-- Link ke file CSS -->
+    <!-- Include Firebase SDK v9+ -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getDatabase, ref, set, push, get, remove, update } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAq1nKP3DObMbxxNHi3f1y6yEmAxZV-nfA",
+            authDomain: "pilketos24.firebaseapp.com",
+            databaseURL: "https://pilketos24-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "pilketos24",
+            storageBucket: "pilketos24.firebasestorage.app",
+            messagingSenderId: "439227857159",
+            appId: "1:439227857159:web:1bdc12a9fb6886c9e7eda2",
+            measurementId: "G-JHMWN0YWDP"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Add book function
+        document.getElementById('book-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const imageUrl = document.getElementById('imageUrl').value;
+            const pdfUrl = document.getElementById('pdfUrl').value;
+
+            // Save to Firebase
+            const newBookRef = push(ref(database, 'books4'));
+            set(newBookRef, {
+                title: title,
+                author: author,
+                imageUrl: imageUrl,
+                pdfUrl: pdfUrl
+            });
+
+            // Clear form
+            document.getElementById('book-form').reset();
+            loadBooks();
+        });
+
+        // Load books from Firebase
+        const loadBooks = () => {
+            const bookList = document.getElementById('book-list');
+            bookList.innerHTML = ''; // Clear previous list
+
+            const dbRef = ref(database, 'books4');
+            get(dbRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    snapshot.forEach((childSnapshot) => {
+                        const book = childSnapshot.val();
+                        const bookId = childSnapshot.key;
+
+                        // Create HTML for each book
+                        const bookElement = document.createElement('div');
+                        bookElement.classList.add('book-item');
+                        bookElement.innerHTML = `
+                            <h3>${book.title}</h3>
+                            <p>Author: ${book.author}</p>
+                            <img src="${book.imageUrl}" alt="Cover" width="100"><br>
+                            <a href="${book.pdfUrl}" target="_blank">Read PDF</a><br>
+                            <button onclick="openEditModal('${bookId}', '${book.title}', '${book.author}', '${book.imageUrl}', '${book.pdfUrl}')">Edit</button>
+                            <button onclick="deleteBook('${bookId}')">Delete</button>
+                        `;
+                        bookList.appendChild(bookElement);
+                    });
+                } else {
+                    bookList.innerHTML = "No books found.";
+                }
+            });
+        };
+
+        // Edit book - open modal
+        window.openEditModal = (bookId, title, author, imageUrl, pdfUrl) => {
+            document.getElementById('edit-book-form').style.display = 'block';
+            document.getElementById('edit-title').value = title;
+            document.getElementById('edit-author').value = author;
+            document.getElementById('edit-imageUrl').value = imageUrl;
+            document.getElementById('edit-pdfUrl').value = pdfUrl;
+
+            document.getElementById('edit-book-form').onsubmit = function(event) {
+                event.preventDefault();
+                const bookRef = ref(database, 'books4/' + bookId);
+                update(bookRef, {
+                    title: document.getElementById('edit-title').value,
+                    author: document.getElementById('edit-author').value,
+                    imageUrl: document.getElementById('edit-imageUrl').value,
+                    pdfUrl: document.getElementById('edit-pdfUrl').value
+                });
+
+                // Hide the modal and reset form
+                document.getElementById('edit-book-form').style.display = 'none';
+                document.getElementById('edit-book-form').reset();
+                loadBooks();
+            };
+        };
+
+        // Close modal
+        window.closeEditModal = () => {
+            document.getElementById('edit-book-form').style.display = 'none';
+        };
+
+        // Delete book
+        window.deleteBook = (bookId) => {
+            const bookRef = ref(database, 'books4/' + bookId);
+            remove(bookRef).then(() => {
+                loadBooks();
+            });
+        };
+
+        // Load books on page load
+        window.onload = loadBooks;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Panel - Book Management</h1>
+        
+        <form id="book-form">
+            <input type="text" id="title" placeholder="Title" required><br>
+            <input type="text" id="author" placeholder="Author" required><br>
+            <input type="text" id="imageUrl" placeholder="Image URL" required><br>
+            <input type="text" id="pdfUrl" placeholder="PDF URL" required><br>
+            <button type="submit">Add Book</button>
+        </form>
+
+        <h2>Book List</h2>
+        <div id="book-list"></div>
+
+        <!-- Modal for Editing Book -->
+        <div id="edit-book-form" class="modal" style="display: none;">
+            <form id="edit-form">
+                <label for="edit-title">Title:</label>
+                <input type="text" id="edit-title" required><br>
+                <label for="edit-author">Author:</label>
+                <input type="text" id="edit-author" required><br>
+                <label for="edit-imageUrl">Image URL:</label>
+                <input type="text" id="edit-imageUrl" required><br>
+                <label for="edit-pdfUrl">PDF URL:</label>
+                <input type="text" id="edit-pdfUrl" required><br>
+                <button type="submit">Update Book</button>
+                <button type="button" onclick="closeEditModal()">Close</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

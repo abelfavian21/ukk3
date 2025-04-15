@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Detail Buku</title>
+  <link rel="stylesheet" href="/komik/bookdetail.css" />
+</head>
+<body>
+
+  <div class="book-container">
+    <div class="book-header">
+      <button class="back-btn" onclick="history.back()">←</button>
+    </div>
+
+    <div class="book-content">
+      <img id="book-cover" class="book-cover" src="" alt="Cover Buku" />
+      <div class="book-info">
+        <h2 id="book-title" class="book-title">Loading...</h2>
+        <p id="book-author" class="book-author">Loading...</p>
+        <div class="book-actions">
+          <button id="read-btn" class="read-button">📖 Baca</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buku Lainnya -->
+    <div class="related-books">
+      <h3>Buku Lainnya</h3>
+      <div id="related-books-list"></div>
+    </div>
+  </div>
+
+  <!-- Firebase + Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAq1nKP3DObMbxxNHi3f1y6yEmAxZV-nfA",
+      authDomain: "pilketos24.firebaseapp.com",
+      databaseURL: "https://pilketos24-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "pilketos24",
+      storageBucket: "pilketos24.firebasestorage.app",
+      messagingSenderId: "439227857159",
+      appId: "1:439227857159:web:1bdc12a9fb6886c9e7eda2",
+      measurementId: "G-JHMWN0YWDP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    let currentBookId = null;
+
+    function loadBookDetail() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const bookId = urlParams.get("bookId");
+
+      if (!bookId || bookId === currentBookId) return;
+      currentBookId = bookId;
+
+      const cachedBook = sessionStorage.getItem(`book_${bookId}`);
+      if (cachedBook) updateBookUI(JSON.parse(cachedBook));
+
+      const bookRef = ref(database, `books2/${bookId}`);
+      get(bookRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const book = snapshot.val();
+            updateBookUI(book);
+            sessionStorage.setItem(`book_${bookId}`, JSON.stringify(book));
+            loadRelatedBooks(bookId);
+          } else {
+            console.error("Buku tidak ditemukan!");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching book details: ", error);
+        });
+    }
+
+    function updateBookUI(book) {
+      document.getElementById("book-cover").src = book.imageUrl;
+      document.getElementById("book-title").textContent = book.title;
+      document.getElementById("book-author").textContent = `By ${book.author}`;
+      document.getElementById("read-btn").onclick = () => {
+        sessionStorage.setItem("lastBookPage", window.location.href);
+        window.location.href = `/komik/pdfviewer.html?pdfUrl=${encodeURIComponent(book.pdfUrl)}`;
+      };
+    }
+
+    function loadRelatedBooks(currentBookId) {
+      const booksRef = ref(database, "books2");
+      get(booksRef)
+        .then(snapshot => {
+          if (snapshot.exists()) {
+            const allBooks = snapshot.val();
+            const relatedBooksContainer = document.getElementById("related-books-list");
+            relatedBooksContainer.innerHTML = "";
+
+            Object.entries(allBooks).forEach(([key, book]) => {
+              if (key !== currentBookId) {
+                const bookCard = document.createElement("div");
+                bookCard.classList.add("book-card");
+                bookCard.innerHTML = `
+                  <a href="book-detail.html?bookId=${key}" class="related-link">
+                    <img src="${book.imageUrl}" alt="${book.title}" />
+                    <h4>${book.title}</h4>
+                  </a>
+                `;
+                relatedBooksContainer.appendChild(bookCard);
+              }
+            });
+          }
+        })
+        .catch(error => {
+          console.error("Gagal memuat buku lainnya:", error);
+        });
+    }
+
+    window.addEventListener("DOMContentLoaded", loadBookDetail);
+    window.addEventListener("popstate", loadBookDetail);
+    window.addEventListener("click", (e) => {
+      const link = e.target.closest("a.related-link");
+      if (link) {
+        e.preventDefault();
+        history.pushState(null, "", link.href);
+        loadBookDetail();
+      }
+    });
+  </script>
+</body>
+</html>

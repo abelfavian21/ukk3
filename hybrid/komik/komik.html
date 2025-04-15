@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+    
+<head>
+            <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edukasi</title>
+    <link rel="stylesheet" href="komik.css"> <!-- Link ke file CSS -->
+    
+    <!-- Firebase Libraries -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
+    
+        const firebaseConfig = {
+            apiKey: "AIzaSyAq1nKP3DObMbxxNHi3f1y6yEmAxZV-nfA",
+            authDomain: "pilketos24.firebaseapp.com",
+            databaseURL: "https://pilketos24-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "pilketos24",
+            storageBucket: "pilketos24.firebasestorage.app",
+            messagingSenderId: "439227857159",
+            appId: "1:439227857159:web:1bdc12a9fb6886c9e7eda2",
+            measurementId: "G-JHMWN0YWDP"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+    
+        document.addEventListener("DOMContentLoaded", async () => {
+            const bookListElement = document.getElementById('book-list');
+            const booksRef = ref(database, 'books');
+    
+            try {
+                const snapshot = await get(booksRef);
+    
+                if (snapshot.exists()) {
+                    const books = snapshot.val();
+    
+                    for (let bookId in books) {
+                        const book = books[bookId];
+    
+                        const bookCard = document.createElement('div');
+                        bookCard.classList.add('book-card');
+    
+                        const bookImage = document.createElement('img');
+                        bookImage.src = book.imageUrl;
+                        bookImage.alt = book.title;
+    
+                        const bookTitle = document.createElement('h3');
+                        bookTitle.textContent = book.title;
+    
+                        const readPdfButton = document.createElement('button');
+                        readPdfButton.textContent = "Baca Buku";
+                        readPdfButton.classList.add('read-pdf-btn');
+                        
+                        readPdfButton.addEventListener("click", () => {
+                            window.location.href = `book-detail.html?bookId=${bookId}`;
+                        });
+    
+                        bookCard.appendChild(bookImage);
+                        bookCard.appendChild(bookTitle);
+                        bookCard.appendChild(readPdfButton);
+                        bookListElement.appendChild(bookCard);
+                    }
+                } else {
+                    bookListElement.textContent = "Tidak ada data buku ditemukan.";
+                }
+            } catch (error) {
+                console.error("Error fetching books: ", error);
+                bookListElement.textContent = "Terjadi kesalahan saat memuat data.";
+            }
+        });
+    </script>
+    
+     <h2 class="section-title">Kategori Buku</h2>
+     <div class="container">
+ 
+       
+    <header>
+        <header class="header">
+            <a href="#" class="header__logo">GoPerpus</a>
+            <ion-icon name="menu-outline" class="header__toggle" id="nav-toggle"></ion-icon>
+            <nav class="nav" id="nav-menu">
+                <div class="nav__content bd-grid">
+                    <ion-icon name="close-outline" class="nav__close" id="nav-close"></ion-icon>
+                    <div class="nav__perfil">
+                        <div class="nav__img">
+                            <img src="/assets/img/perfil.png" alt="Profile">
+                        </div>
+                        <div>
+                            <a href="#" class="nav__name">GoPerpus</a>
+                            <span class="nav__profesion">Baca di mana saja dan kapan saja</span>
+                        </div>
+                    </div>
+                    <ul class="nav__list">
+                        <li><a href="/index.html" class="nav__link active">Home</a></li>
+                        <li><a href="/about.html" class="nav__link">About</a></li>
+          
+                        <li><a href="/dashboard.html" class="nav__link">Profil</a></li>
+                    </ul>
+                    <div class="nav__social">
+                        <a href="#" class="nav__social-icon"><ion-icon name="logo-instagram"></ion-icon></a>
+                        <a href="#" class="nav__social-icon"><ion-icon name="logo-youtube"></ion-icon></a>
+                        <a href="#" class="nav__social-icon"><ion-icon name="logo-twitter"></ion-icon></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        
+        
+        <!-- Ionicons -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        
+        <!-- Main JS -->
+        <script src="assets/js/main.js"></script>
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const navMenu = document.getElementById("nav-menu"),
+                      toggleMenu = document.getElementById("nav-toggle"),
+                      closeMenu = document.getElementById("nav-close");
+        
+                if (toggleMenu) {
+                    toggleMenu.addEventListener("click", () => {
+                        navMenu.classList.add("show");
+                    });
+                }
+        
+                if (closeMenu) {
+                    closeMenu.addEventListener("click", () => {
+                        navMenu.classList.remove("show");
+                    });
+                }
+            });
+        
+            var swiper = new Swiper(".mySwiper", {
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+            });
+            
+        </script>
+        <body>
+            <header>
+                
+               
+            </header>
+        
+
+        <h1>Daftar Buku Komik</h1>
+        
+    </header>
+     <!-- 🔍 Input Pencarian -->
+     <input type="text" id="search-input" placeholder="Cari buku..." onkeyup="searchBooks()"/>
+
+     <section id="book-list" class="book-list">
+         <!-- Buku akan dimuat di sini -->
+     </section>
+ 
+     <script>
+         function searchBooks() {
+             const searchInput = document.getElementById("search-input").value.toLowerCase();
+             const bookCards = document.getElementsByClassName("book-card");
+ 
+             for (let i = 0; i < bookCards.length; i++) {
+                 const title = bookCards[i].getElementsByTagName("h3")[0].textContent.toLowerCase();
+                 if (title.includes(searchInput)) {
+                     bookCards[i].style.display = "block";
+                 } else {
+                     bookCards[i].style.display = "none";
+                 }
+             }
+         }
+     </script>
+
+    <section id="book-list" class="book-list">
+        <!-- Buku akan dimuat di sini -->
+    </section>
+</body>
+<footer class="footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <img src="/assets2/img/logo.png" alt="NVIDIA Logo" class="footer-logo" />
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <span>|</span>
+        <a href="#">Legal Info</a>
+        <span>|</span>
+        <a href="#">Contact Us</a>
+      </div>
+      <div class="footer-copy">
+        Copyright © 2025 BELZYCODE Corporation
+      </div>
+    </div>
+  </footer>
+  
+</html>

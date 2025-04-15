@@ -1,0 +1,211 @@
+/* Reset dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f4f4;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    display: block;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background: #34495e;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    z-index: 1001;
+}
+
+/* Content */
+.content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+h1, h2 {
+    margin-bottom: 15px;
+}
+
+/* Form langsung tampil */
+form {
+    background: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+form, .edit-section {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+    margin: 0 auto 20px auto; /* Tengahin */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+form input, form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    background: #2c3e50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background: #1a252f;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+table th {
+    background: #2c3e50;
+    color: white;
+}
+
+td img {
+    border-radius: 5px;
+}
+
+/* Tombol Edit & Hapus */
+button {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+button.edit {
+    background: #f39c12;
+    color: white;
+}
+
+button.delete {
+    background: #e74c3c;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+/* Search Input */
+#search {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* RESPONSIF */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+        color: #1a252f;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .content {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    form {
+        width: 90%;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    table th, table td {
+        padding: 8px;
+    }
+
+    button {
+        font-size: 12px;
+    }
+}

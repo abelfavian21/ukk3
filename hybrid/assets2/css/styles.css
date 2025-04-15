@@ -1,0 +1,740 @@
+/*===== GOOGLE FONTS =====*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
+/*===== VARIABLES CSS =====*/
+:root {
+  --header-height: 4rem;
+  
+  /*===== Colores =====*/
+  --first-color: #3664F4;
+  --dark-color: #070D1F;
+  --dark-color-alt: #282B3A;
+  --white-color: #E6E7E9;
+
+  /*===== Fuente y tipografia =====*/
+  --body-font: 'Poppins', sans-serif;
+  --normal-font-size: .938rem; 
+  --small-font-size: .813rem;
+
+  /*===== z index =====*/
+  --z-fixed: 100;
+}
+
+@media screen and (min-width: 768px) {
+  :root {
+    --normal-font-size: 25px;
+    --small-font-size: .875rem;
+  }
+}
+
+/*===== BASE =====*/
+*, ::before, ::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  margin: var(--header-height) 0 0 0;
+  font-family: var(--body-font);
+  background-color: #070D1F;
+  font-size: var(--normal-font-size);
+  font-weight: 500;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.bd-grid {
+  max-width: 1024px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 100%;
+      grid-template-columns: 100%;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+/*===== HEADER =====*/
+.header {
+  width: 100%;
+  height: var(--header-height);
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0 1.5rem;
+  background-color: var(--dark-color);
+  z-index: var(--z-fixed);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.header__logo {
+  color: var(--white-color);
+}
+
+.header__toggle {
+  font-size: 1.5rem;
+  color: var(--white-color);
+  cursor: pointer;
+}
+
+/*===== NAV =====*/
+@media screen and (max-width: 768px) {
+  .nav {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    background-color: var(--dark-color);
+    color: var(--white-color);
+    width: 100%;
+    height: 100vh;
+    padding: 1.5rem 0;
+    z-index: var(--z-fixed);
+    -webkit-transition: .5s;
+    transition: .5s;
+  }
+}
+
+.nav__content {
+  height: 100%;
+  -ms-grid-rows: max-content 1fr max-content;
+      grid-template-rows: -webkit-max-content 1fr -webkit-max-content;
+      grid-template-rows: max-content 1fr max-content;
+  row-gap: 2rem;
+}
+
+.nav__close {
+  position: absolute;
+  right: 1.5rem;
+  font-size: 1.3rem;
+  padding: .25rem;
+  background-color: var(--dark-color-alt);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.nav__img {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding-top: .25rem;
+  margin-bottom: .8rem;
+  width: 56px;
+  height: 56px;
+  background-color: var(--first-color);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.nav__img img {
+  width: 46px;
+}
+
+.nav__name {
+  display: block;
+  color: var(--white-color);
+}
+
+.nav__profesion {
+  font-size: var(--small-font-size);
+}
+
+.nav__menu {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.nav__item {
+  margin: 2.5rem 0;
+}
+
+.nav__link {
+  color: var(--white-color);
+}
+
+.nav__social {
+  padding-top: .5rem;
+}
+
+.nav__social-icon {
+  font-size: 1.2rem;
+  color: var(--white-color);
+  margin-right: 1rem;
+}
+
+.nav__social-icon:hover {
+  color: var(--first-color);
+}
+
+/*Aparecer menu*/
+.show {
+  left: 0;
+}
+
+/*Active menu*/
+.active {
+  color: var(--first-color);
+}
+
+/*===== MEDIA QUERIES =====*/
+@media screen and (min-width: 768px) {
+  body {
+    margin: 0;
+  }
+  .header {
+    height: calc(var(--header-height) + 1rem);
+  }
+  .header__logo, .header__toggle {
+    display: none;
+  }
+  .nav {
+    width: 100%;
+  }
+  .nav__content {
+    -ms-grid-columns: (max-content)[3];
+        grid-template-columns: repeat(3, -webkit-max-content);
+        grid-template-columns: repeat(3, max-content);
+    -ms-grid-rows: 1fr;
+        grid-template-rows: 1fr;
+    -webkit-column-gap: 1rem;
+            column-gap: 1rem;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+  .nav__close, .nav__profesion {
+    display: none;
+  }
+  .nav__perfil {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .nav__img {
+    width: 32px;
+    height: 32px;
+    margin-right: .5rem;
+    margin-bottom: 0;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .nav__img img {
+    width: 26px;
+  }
+  .nav__list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .nav__item {
+    margin: 0 .25rem;
+  }
+  .nav__link {
+    padding: .5rem .8rem;
+    border-radius: .25rem;
+  }
+  .nav__link:hover {
+    background-color: var(--first-color);
+  }
+  .active {
+    background-color: var(--first-color);
+    color: var(--white-color);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .bd-grid {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+.banner {
+  width: 100%;
+  height: 300px; /* Sesuaikan tinggi banner */
+  overflow: hidden;
+}
+
+.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== Swiper Styling ===== */
+.swiper {
+  width: 100%;
+  height: 700px;
+  margin-top: var(--header-height);
+}
+
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: auto; /* Menjaga proporsi gambar */
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Responsif */
+@media (max-width: 1024px) {
+  .swiper {
+    height: 500px; /* Menyesuaikan ukuran untuk tablet */
+  }
+}
+
+@media (max-width: 768px) {
+  .swiper {
+    height: 350px; /* Menyesuaikan ukuran untuk perangkat lebih kecil */
+  }
+}
+
+@media (max-width: 480px) {
+  .swiper {
+    height: 250px; /* Ukuran untuk ponsel */
+  }
+
+  .swiper-slide img {
+    object-position: center; /* Menjaga fokus gambar di tengah */
+  }
+}
+
+/* Tombol Navigasi */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff;
+}
+
+/* Pagination Dots */
+.swiper-pagination-bullet {
+  background-color: #fff;
+}
+
+/* From Uiverse.io by joe-watson-sbf */ 
+.flip-card {
+  background-color: transparent;
+  width: 433px;
+  padding: 10px;
+  
+  margin-top: 30px !important;
+  height: 254px;
+  perspective: 1000px;
+  font-family: sans-serif;
+}
+
+.title {
+  font-size: 1.5em;
+  font-weight: 900;
+  text-align: center;
+  margin: 0;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border: 1px solid white;
+  border-radius: 1rem;
+}
+
+.flip-card-front {
+  background: #3664f4;
+  color: white;
+}
+
+.flip-card-back {
+  background: grey;
+  color: white;
+  transform: rotateY(180deg);
+}
+.section-title {
+  text-align: center;
+
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-top: 80px;
+  color: white;
+}
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+}
+
+
+
+
+
+
+
+
+.store-list {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+  overflow-x: auto; /* Scroll horizontal */
+  padding-bottom: 20px;
+  justify-content: flex-start; /* Pastikan card tersusun ke samping */
+  white-space: nowrap; /* Hindari wrap ke bawah */
+  scroll-snap-type: x mandatory; /* Scroll lebih halus */
+  
+  /* Sembunyikan scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Edge/IE */
+}
+
+.store-list::-webkit-scrollbar {
+  display: none; /* Chrome & Safari */
+}
+
+.store-card {
+  flex: 0 0 auto; /* Mencegah card mengecil */
+  width: 220px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 15px;
+  transition: transform 0.3s;
+  scroll-snap-align: start; /* Snap ke posisi card */
+}
+
+.store-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.store-card:hover {
+  transform: scale(1.05);
+}
+
+/* Responsif untuk layar tablet */
+@media (max-width: 768px) {
+  .store-card {
+    width: 180px;
+    height: 250px;
+  }
+}
+
+/* Responsif untuk layar HP */
+@media (max-width: 480px) {
+  .store-card {
+    width: 150px;
+    height: 200px;
+  }
+}
+
+
+.view-more {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Game Cards */
+.games {
+  display: flex;
+  margin-top: 40px;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.game {
+  background: #1a1a1a;
+  padding: 10px;
+  border-radius: 8px;
+  width: 220px;
+  min-width: 220px;
+  text-align: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.game img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.tag {
+  position: absolute;
+  bottom: 100px;
+  left: 10px;
+  background: blue;
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.coming {
+  background: black;
+}
+
+h3 {
+  font-size: 14px;
+  color: #ffffff;
+  margin: 10px 0 5px;
+}
+
+p2 {
+  font-size: 12px;
+  color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .games {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+  }
+
+  .game {
+      width: 180px;
+      min-width: 180px;
+  }
+
+  h3 {
+      font-size: 12px;
+  }
+
+  p {
+      font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+      flex-direction: column;
+      text-align: center;
+  }
+
+  .view-more {
+      margin-top: 10px;
+  }
+
+  .games {
+      flex-direction: row;
+      overflow-x: auto;
+      padding-bottom: 10px;
+  }
+
+  .game {
+      width: 160px;
+      min-width: 160px;
+  }
+
+  .tag {
+      font-size: 10px;
+      padding: 4px 8px;
+  }
+
+  h3 {
+      font-size: 10px;
+  }
+
+  p {
+      font-size: 9px;
+  }
+}
+.container {
+  display: flex;
+  margin-top: 40px;
+  align-items: center;
+  max-width: 900px;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.image-section {
+  flex: 1;
+}
+
+.image-section img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.text-section {
+  flex: 1;
+  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.install-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #0078f2;
+  color: white;
+  text-decoration: none;
+  margin-top: 20px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.install-button:hover {
+  background-color: #005bb5;
+}
+/* Reset dasar */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Gaya untuk body */
+body {
+  background: #000;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+/* Section utama */
+.hero {
+  margin-top: 30px;
+  padding: 50px 20px;
+  background: linear-gradient(135deg, rgb(1, 59, 248) 10%, #000 90%);
+  box-shadow: 0 0 20px rgba;
+}
+
+/* Judul */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+h4 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #000;
+}
+p2{
+  color: #000;
+  font-style: var(--dark-color);
+}
+
+/* Tombol */
+.cta-button {
+  display: inline-block;
+  background: rgb(0, 119, 255);
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.footer {
+  border-top: 1px solid #ccc;
+  padding: 20px;
+  background-color: #004aad; /* Biru */
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: white;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.footer-left {
+  margin-bottom: 10px;
+}
+
+.footer-logo {
+  height: 130px; /* Ukuran gambar diperbesar */
+}
+
+.footer-links {
+  margin-bottom: 6px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: white;
+  margin: 0 5px;
+}
+
+.footer-links span {
+  color: #ddd;
+}
+
+.footer-copy {
+  color: #ccc;
+}
+
+

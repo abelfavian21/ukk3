@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Arrow back di pojok kiri atas */
+    .back-arrow {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 24px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .back-arrow:focus {
+      outline: none;
+    }
+
+    .container {
+      background-color: #ffffff10;
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .email {
+      font-size: 16px;
+      margin: 20px 0;
+      color: #f0f0f0;
+    }
+
+    button#logout-button {
+      width: 100%;
+      padding: 12px;
+      background: #ff4b5c;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button#logout-button:hover {
+      background: #e63946;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .back-arrow {
+        font-size: 22px;
+      }
+
+      button#logout-button {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Arrow berdiri sendiri di pojok kiri atas -->
+  <button class="back-arrow" onclick="history.back()">←</button>
+
+  <div class="container">
+    <h1>Profile</h1>
+    <p class="email">Loading...</p>
+    <button id="logout-button">Logout</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAq1nKP3DObMbxxNHi3f1y6yEmAxZV-nfA",
+      authDomain: "pilketos24.firebaseapp.com",
+      databaseURL: "https://pilketos24-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "pilketos24",
+      storageBucket: "pilketos24.appspot.com",
+      messagingSenderId: "439227857159",
+      appId: "1:439227857159:web:1bdc12a9fb6886c9e7eda2",
+      measurementId: "G-JHMWN0YWDP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const emailElement = document.querySelector('.email');
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        emailElement.textContent = `Logged in as: ${user.email}`;
+      } else {
+        window.location.href = 'regis.html';
+      }
+    });
+
+    document.getElementById('logout-button').addEventListener('click', async () => {
+      try {
+        await signOut(auth);
+        window.location.href = 'regis.html';
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
+    });
+  </script>
+</body>
+</html>

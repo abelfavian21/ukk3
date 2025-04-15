@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getDatabase, ref, set, push, get, remove, update } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAq1nKP3DObMbxxNHi3f1y6yEmAxZV-nfA",
+            authDomain: "pilketos24.firebaseapp.com",
+            databaseURL: "https://pilketos24-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "pilketos24",
+            storageBucket: "pilketos24.firebasestorage.app",
+            messagingSenderId: "439227857159",
+            appId: "1:439227857159:web:1bdc12a9fb6886c9e7eda2",
+            measurementId: "G-JHMWN0YWDP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth();
+
+        let currentCategory = "books2";
+        let editingBookId = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (localStorage.getItem("adminLoggedIn") !== "true") {
+                alert("Anda harus login terlebih dahulu!");
+                window.location.href = "loginadmin.html";
+            }
+            loadBooks();
+        });
+
+        document.getElementById("hamburger").addEventListener("click", function() {
+            document.querySelector(".sidebar").classList.toggle("show");
+        });
+
+        document.querySelectorAll(".sidebar ul li a").forEach(item => {
+            item.addEventListener("click", function(event) {
+                event.preventDefault();
+                currentCategory = this.dataset.category;
+                document.querySelector(".content h1").textContent = `Kelola ${this.textContent}`;
+                loadBooks();
+                document.querySelector(".sidebar").classList.remove("show");
+            });
+        });
+
+        document.getElementById("logout-button").addEventListener("click", function() {
+            signOut(auth).then(() => {
+                localStorage.clear();
+                alert("Anda telah logout.");
+                window.location.href = "loginadmin.html";
+            });
+        });
+
+        document.getElementById("book-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const title = document.getElementById("title").value;
+            const author = document.getElementById("author").value;
+            const imageUrl = document.getElementById("imageUrl").value;
+            const pdfUrl = document.getElementById("pdfUrl").value;
+
+            const newBookRef = push(ref(database, currentCategory));
+            set(newBookRef, { title, author, imageUrl, pdfUrl }).then(() => {
+                document.getElementById("book-form").reset();
+                loadBooks();
+            });
+        });
+
+        document.getElementById('search').addEventListener('input', function() {
+            loadBooks(this.value);
+        });
+
+        const loadBooks = (query = "") => {
+            const bookList = document.getElementById("book-list");
+            bookList.innerHTML = "";
+
+            get(ref(database, currentCategory)).then(snapshot => {
+                if (snapshot.exists()) {
+                    let tableHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Judul</th>
+                                    <th>Penulis</th>
+                                    <th>Cover</th>
+                                    <th>PDF</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    snapshot.forEach(childSnapshot => {
+                        const book = childSnapshot.val();
+                        const bookId = childSnapshot.key;
+                        
+                        if (book.title.toLowerCase().includes(query.toLowerCase()) || 
+                            book.author.toLowerCase().includes(query.toLowerCase())) {
+                            
+                            tableHTML += `
+                                <tr>
+                                    <td>${book.title}</td>
+                                    <td>${book.author}</td>
+                                    <td><img src="${book.imageUrl}" alt="Cover" width="50"></td>
+                                    <td><a href="${book.pdfUrl}" target="_blank">Lihat PDF</a></td>
+                                    <td>
+                                        <button onclick="openEditForm('${bookId}', '${book.title}', '${book.author}', '${book.imageUrl}', '${book.pdfUrl}')">Edit</button>
+                                        <button onclick="deleteBook('${bookId}')">Hapus</button>
+                                    </td>
+                                </tr>
+                            `;
+                        }
+                    });
+
+                    tableHTML += `</tbody></table>`;
+                    bookList.innerHTML = tableHTML;
+                } else {
+                    bookList.innerHTML = "<p>Tidak ada buku.</p>";
+                }
+            });
+        };
+
+        window.deleteBook = (bookId) => {
+            remove(ref(database, `${currentCategory}/${bookId}`)).then(() => loadBooks());
+        };
+
+        
+
+        window.openEditForm = (bookId, title, author, imageUrl, pdfUrl) => {
+            document.getElementById('edit-title').value = title;
+            document.getElementById('edit-author').value = author;
+            document.getElementById('edit-imageUrl').value = imageUrl;
+            document.getElementById('edit-pdfUrl').value = pdfUrl;
+            
+            document.getElementById('edit-section').style.display = "block";
+            editingBookId = bookId;
+        };
+
+        window.closeEditForm = () => {
+            document.getElementById('edit-section').style.display = "none";
+            editingBookId = null;
+        };
+        document.getElementById('edit-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Mencegah reload halaman
+
+    if (editingBookId) {
+        const updatedTitle = document.getElementById('edit-title').value;
+        const updatedAuthor = document.getElementById('edit-author').value;
+        const updatedImageUrl = document.getElementById('edit-imageUrl').value;
+        const updatedPdfUrl = document.getElementById('edit-pdfUrl').value;
+
+        // Mengupdate data di Firebase
+        update(ref(database, `${currentCategory}/${editingBookId}`), {
+            title: updatedTitle,
+            author: updatedAuthor,
+            imageUrl: updatedImageUrl,
+            pdfUrl: updatedPdfUrl
+        }).then(() => {
+            alert("Buku berhasil diperbarui!");
+            closeEditForm(); // Tutup form setelah update
+            loadBooks(); // Refresh daftar buku
+        }).catch(error => {
+            console.error("Gagal memperbarui buku:", error);
+        });
+    }
+});
+
+
+    </script>
+</head>
+<body>
+    <button id="hamburger" class="hamburger">&#9776;</button>
+    <nav class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li><a href="#" data-category="books2">Edukasi</a></li>
+            <li><a href="#" data-category="books">Komik</a></li>
+            <li><a href="#" data-category="books4">Religi</a></li>
+            <li><a href="#" data-category="books3">Novel</a></li>
+            <li><button id="logout-button">Logout</button></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <h1>Kelola Edukasi</h1>
+        <form id="book-form">
+            <input type="text" id="title" placeholder="Judul" required>
+            <input type="text" id="author" placeholder="Penulis" required>
+            <input type="text" id="imageUrl" placeholder="URL Gambar" required>
+            <input type="text" id="pdfUrl" placeholder="URL PDF" required>
+            <button type="submit">Tambah Buku</button>
+        </form>
+        
+        <input type="text" id="search" placeholder="Cari buku...">
+        
+        <div id="edit-section" class="edit-section" style="display: none;">
+            <h2>Edit Buku</h2>
+            <form id="edit-form">
+                <input type="text" id="edit-title" required>
+                <input type="text" id="edit-author" required>
+                <input type="text" id="edit-imageUrl" required>
+                <input type="text" id="edit-pdfUrl" required>
+                <button type="submit">Simpan</button>
+                <button type="button" onclick="closeEditForm()">Batal</button>
+            </form>
+        </div>
+
+        <h2>Daftar Buku</h2>
+        <div id="book-list"></div>
+    </main>
+</body>
+</html>

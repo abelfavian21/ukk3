@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--=============== REMIXICONS ===============-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" crossorigin="">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+
+    <title>Register Form - Bedimcode</title>
+</head>
+<body>
+    <div class="login">
+        <img src="assets2/img/biru.png" alt="image" class="login__bg">
+
+        <form id="register-form" class="login__form">
+            <h1 class="login__title">Register</h1>
+
+            <div class="login__inputs">
+                <div class="login__box">
+                    <input type="email" id="register-email" placeholder="Email ID" required class="login__input">
+                    <i class="ri-mail-fill"></i>
+                </div>
+
+                <div class="login__box">
+                    <input type="password" id="register-password" placeholder="Password" required class="login__input">
+                    <i class="ri-lock-2-fill"></i>
+                </div>
+            </div>
+
+            <button type="button" id="register-button" class="login__button">Register</button>
+            <p id="register-message" class="login__error"></p>
+
+            <div class="login__register">
+                Have an account? <a href="login.html">Login</a>
+            </div>
+        </form>
+    </div>
+
+    <script type="module">
+        // Firebase configuration
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAq1nKP3DObMbxxNHi3f1y6yEmAxZV-nfA",
+            authDomain: "pilketos24.firebaseapp.com",
+            databaseURL: "https://pilketos24-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "pilketos24",
+            storageBucket: "pilketos24.appspot.com",
+            messagingSenderId: "439227857159",
+            appId: "1:439227857159:web:1bdc12a9fb6886c9e7eda2",
+            measurementId: "G-JHMWN0YWDP"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Register functionality
+        document.getElementById('register-button').addEventListener('click', async () => {
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const messageElement = document.getElementById('register-message');
+
+            if (!email || !password) {
+                messageElement.textContent = 'Email and password are required!';
+                messageElement.style.color = 'red';
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                messageElement.textContent = 'Registration successful! Redirecting to login...';
+                messageElement.style.color = 'green';
+
+                // Redirect to login page after successful registration
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            } catch (error) {
+                messageElement.textContent = error.message || 'Registration failed!';
+                messageElement.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

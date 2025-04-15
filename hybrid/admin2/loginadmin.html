@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="login.css">
+
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+        // Konfigurasi Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAq1nKP3...",
+            authDomain: "pilketos24.firebaseapp.com",
+            databaseURL: "https://pilketos24-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "pilketos24",
+            storageBucket: "pilketos24.appspot.com",
+            messagingSenderId: "439227857159",
+            appId: "1:439227857159:web:1bdc12a9fb6886c9e7eda2",
+            measurementId: "G-JHMWN0YWDP"
+        };
+
+        // Inisialisasi Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("login-form").addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                // Ambil input dari form
+                const email = document.getElementById("email").value.trim();
+                const password = document.getElementById("password").value.trim();
+
+                // Ambil data admin dari Firebase
+                const adminRef = ref(database, "admin");
+                const snapshot = await get(adminRef);
+
+                if (snapshot.exists()) {
+                    const adminData = snapshot.val();
+
+                    console.log("Data admin dari Firebase:", adminData);
+                    console.log("Email input:", email);
+                    console.log("Password input:", password);
+
+                    // Periksa apakah email dan password cocok
+                    if (email === adminData.email && password === adminData.password.toString()) {
+                        alert("Login berhasil!");
+                        localStorage.setItem("adminLoggedIn", "true"); // Simpan status login
+                        window.location.href = "adminhome.html"; // Redirect ke halaman admin
+                    } else {
+                        alert("Email atau password salah!");
+                    }
+                } else {
+                    alert("Akun admin tidak ditemukan!");
+                }
+            });
+
+            // ❌ **Hapus pemeriksaan otomatis yang menolak akses ke login**
+            // ✅ Biarkan pengguna bisa login ulang meskipun sudah login sebelumnya
+        });
+    </script>
+
+</head>
+<body>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

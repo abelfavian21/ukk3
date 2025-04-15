@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Swiper CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="assets2/css/styles.css">
+
+        <title>Menu Responsive</title>
+    </head>
+    <body>
+        <header class="header">
+            <a href="#" class="header__logo">GoPerpus</a>
+            <ion-icon name="menu-outline" class="header__toggle" id="nav-toggle"></ion-icon>
+            <nav class="nav" id="nav-menu">
+                <div class="nav__content bd-grid">
+                    <ion-icon name="close-outline" class="nav__close" id="nav-close"></ion-icon>
+                    <div class="nav__perfil">
+                        <div class="nav__img">
+                            <img src="assets/img/perfil.png" alt="Profile">
+                        </div>
+                        <div>
+                            <a href="#" class="nav__name">GoPerpus</a>
+                            <span class="nav__profesion">Baca di mana saja dan kapan saja</span>
+                        </div>
+                    </div>
+                    <ul class="nav__list">
+                        <li><a href="#" class="nav__link active">Home</a></li>
+                        <li><a href="about.html" class="nav__link">About</a></li>
+                        
+                   
+                        <li><a href="dashboard.html" class="nav__link">Profile</a></li>
+                    </ul>
+                    <div class="nav__social">
+                        <a href="#" class="nav__social-icon"><ion-icon name="logo-instagram"></ion-icon></a>
+                        <a href="#" class="nav__social-icon"><ion-icon name="logo-youtube"></ion-icon></a>
+                        <a href="#" class="nav__social-icon"><ion-icon name="logo-twitter"></ion-icon></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Swiper Slider -->
+        <section class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="assets2/img/sololev2.png" alt="Slide 1">
+                </div>
+                <div class="swiper-slide">
+                    <img src="assets2/img/naruto.png" alt="Slide 2">
+                </div>
+                <div class="swiper-slide">
+                    <img src="assets2/img/sololev2.png" alt="Slide 3">
+                </div>
+                <div class="swiper-slide">
+                    <img src="assets2/img/naruto.png" alt="Slide 4">
+                </div>
+            </div>
+    
+            <!-- Tombol Navigasi -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+    
+            <!-- Pagination -->
+            <div class="swiper-pagination"></div>
+        </section>
+
+        <!-- Ionicons -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+        <!-- Main JS -->
+        <script src="assets/js/main.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const navMenu = document.getElementById("nav-menu"),
+                      toggleMenu = document.getElementById("nav-toggle"),
+                      closeMenu = document.getElementById("nav-close");
+
+                if (toggleMenu) {
+                    toggleMenu.addEventListener("click", () => {
+                        navMenu.classList.add("show");
+                    });
+                }
+
+                if (closeMenu) {
+                    closeMenu.addEventListener("click", () => {
+                        navMenu.classList.remove("show");
+                    });
+                }
+            });
+
+            var swiper = new Swiper(".mySwiper", {
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+            });
+            
+        </script>
+         <h2 class="section-title">Kategori Buku</h2>
+         <div class="container">
+     
+             </div>
+             <div style="display: flex; gap: 20px; justify-content: center;">
+                <div class="store-list">
+                    <div class="store-card" onclick="window.location.href='komik/komik.html';">
+                        <img src="assets2/img/KOMIK.png" alt="Gramedia Pustaka Utama">
+                    </div>
+                    <div class="store-card" onclick="window.location.href='edukasi/edukasi.html';">
+                        <img src="assets2/img/edukasi.png" alt="Gramedia Widiasarana">
+                    </div>
+                    <div class="store-card" onclick="window.location.href='novel/novel.html';">
+                        <img src="assets2/img/novel.png" alt="Bhuana Ilmu Populer">
+                    </div>
+                    <div class="store-card" onclick="window.location.href='religi/religi.html';">
+                        <img src="assets2/img/tyson.png" alt="Elex Media Komputindo">
+                    </div>
+                </div>
+            </div>
+            
+            
+                
+             </div>
+         </div>
+
+         <div class="hero">
+            <h3>GoPerpus</h3>
+            <h1>Baca buku secara online</h1>
+            <p>GoPerpus adalah tempat yang menyediakan buku bacaan yang dapat di baca kapan saja dan dimana saja.</p>
+            <a href="/about.html" class="cta-button">Tentang Kami ></a>
+        </div>
+       
+        
+<h2 class="section-title">SEGERA RILIS </h2>
+<div class="container">
+       
+</div>
+<div style="display: flex; gap: px; justify-content: center;">
+<div class="games">
+    <div class="game">
+        <img src="https://images-cdn.ubuy.co.id/64cab8985029414511629ce0-cinemaflix-red-dead-redemption-ii.jpg" alt="Apex Legends">
+        <div class="tag free">Coming Soon</div>
+        <h3>Red Dead Redemption</h3>
+        <p2>Release - Feb 20 at 11:00 PM</p2>
+    </div>
+    <div class="game">
+        <img src="https://images.booksense.com/images/472/379/9781986379472.jpg" alt="Apex Legends">
+        <div class="tag free">Coming Soon</div>
+        <h3>Red Dead Redemption</h3>
+        <p2>Release - Feb 20 at 11:00 PM</p2>
+    </div>
+    <div class="game">
+        <img src="https://images-cdn.ubuy.co.id/64cab8985029414511629ce0-cinemaflix-red-dead-redemption-ii.jpg" alt="Apex Legends">
+        <div class="tag free">Coming Soon</div>
+        <h3>Red Dead Redemption</h3>
+        <p2>Release - Feb 20 at 11:00 PM</p2>
+    </div>
+    <div class="game">
+        <img src="https://images-cdn.ubuy.co.id/64cab8985029414511629ce0-cinemaflix-red-dead-redemption-ii.jpg" alt="Apex Legends">
+        <div class="tag free">Coming Soon</div>
+        <h3>Red Dead Redemption</h3>
+        <p2>Release - Feb 20 at 11:00 PM</p2>
+    </div>
+</div>
+</div>
+    
+        </div>
+     
+        </div>
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+            import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+        
+            const firebaseConfig = {
+                apiKey: "AIzaSyAq1nKP3DObMbxxNHi3f1y6yEmAxZV-nfA",
+                authDomain: "pilketos24.firebaseapp.com",
+                databaseURL: "https://pilketos24-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "pilketos24",
+                storageBucket: "pilketos24.appspot.com",
+                messagingSenderId: "439227857159",
+                appId: "1:439227857159:web:1bdc12a9fb6886c9e7eda2",
+                measurementId: "G-JHMWN0YWDP"
+            };
+        
+            // Inisialisasi Firebase
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+        
+            // Cek status login
+            onAuthStateChanged(auth, user => {
+                if (!user) {
+                    // Belum login, redirect ke halaman register
+                    window.location.href = "regis.html";
+                }
+            });
+        </script>
+   <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <img src="assets2/img/logo.png" alt="goperpus Logo" class="footer-logo" />
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <span>|</span>
+        <a href="#">Legal Info</a>
+        <span>|</span>
+        <a href="#">Contact Us</a>
+      </div>
+      <div class="footer-copy">
+        Copyright © 2025 BELZYCODE Corporation
+      </div>
+    </div>
+  </footer>
+  
+          
+        

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--=============== REMIXICONS ===============-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" crossorigin="">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+
+    <title>Login Form - Bedimcode</title>
+</head>
+<body>
+    <div class="login">
+        <img src="assets2/img/biru.png" alt="image" class="login__bg">
+
+        <form id="login-form" class="login__form">
+            <h1 class="login__title">Login</h1>
+
+            <div class="login__inputs">
+                <div class="login__box">
+                    <input type="email" id="login-email" placeholder="Email ID" required class="login__input">
+                    <i class="ri-mail-fill"></i>
+                </div>
+
+                <div class="login__box">
+                    <input type="password" id="login-password" placeholder="Password" required class="login__input">
+                    <i class="ri-lock-2-fill"></i>
+                </div>
+            </div>
+
+            <div class="login__check"></div>
+
+            <button type="button" id="login-button" class="login__button">Login</button>
+            <p id="login-message" class="login__error"></p>
+
+            <div class="login__register">
+                Don't have an account? <a href="regis.html">Register</a>
+            </div>
+        </form>
+    </div>
+
+    <script type="module">
+        // Firebase configuration
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAq1nKP3DObMbxxNHi3f1y6yEmAxZV-nfA",
+            authDomain: "pilketos24.firebaseapp.com",
+            databaseURL: "https://pilketos24-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "pilketos24",
+            storageBucket: "pilketos24.appspot.com",
+            messagingSenderId: "439227857159",
+            appId: "1:439227857159:web:1bdc12a9fb6886c9e7eda2",
+            measurementId: "G-JHMWN0YWDP"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Login functionality
+        document.getElementById('login-button').addEventListener('click', async () => {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const messageElement = document.getElementById('login-message');
+
+            if (!email || !password) {
+                messageElement.textContent = 'Email and password are required!';
+                messageElement.style.color = 'red';
+                return;
+            }
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                messageElement.textContent = 'Login successful!';
+                messageElement.style.color = 'green';
+
+                // Redirect to 'index.html' after successful login
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            } catch (error) {
+                messageElement.textContent = 'Invalid email or password!';
+                messageElement.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

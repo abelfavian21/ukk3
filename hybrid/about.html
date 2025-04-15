@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang GoPerpus</title>
+    <link rel="stylesheet" href="about.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<header class="header">
+    <a href="#" class="header__logo">GoPerpus</a>
+    <ion-icon name="menu-outline" class="header__toggle" id="nav-toggle"></ion-icon>
+    <nav class="nav" id="nav-menu">
+        <div class="nav__content bd-grid">
+            <ion-icon name="close-outline" class="nav__close" id="nav-close"></ion-icon>
+            <div class="nav__perfil">
+                <div class="nav__img">
+                    <img src="assets/img/perfil.png" alt="Profile">
+                </div>
+                <div>
+                    <a href="#" class="nav__name">GoPerpus</a>
+                    <span class="nav__profesion">Baca di mana saja dan kapan saja</span>
+                </div>
+            </div>
+            <ul class="nav__list">
+                <li><a href="/index.html" class="nav__link active">Home</a></li>
+                <li><a href="#" class="nav__link">About</a></li>
+            
+                <li><a href="dashboard.html" class="nav__link">Profil</a></li>
+            </ul>
+            <div class="nav__social">
+                <a href="#" class="nav__social-icon"><ion-icon name="logo-instagram"></ion-icon></a>
+                <a href="#" class="nav__social-icon"><ion-icon name="logo-youtube"></ion-icon></a>
+                <a href="#" class="nav__social-icon"><ion-icon name="logo-twitter"></ion-icon></a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+<!-- Ionicons -->
+<script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- Main JS -->
+<script src="assets/js/main.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const navMenu = document.getElementById("nav-menu"),
+              toggleMenu = document.getElementById("nav-toggle"),
+              closeMenu = document.getElementById("nav-close");
+
+        if (toggleMenu) {
+            toggleMenu.addEventListener("click", () => {
+                navMenu.classList.add("show");
+            });
+        }
+
+        if (closeMenu) {
+            closeMenu.addEventListener("click", () => {
+                navMenu.classList.remove("show");
+            });
+        }
+    });
+
+    var swiper = new Swiper(".mySwiper", {
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+    
+</script>
+<body class="bg-black text-white">
+    <div class="relative flex flex-col lg:flex-row items-center justify-between min-h-screen px-6 lg:px-20 py-10 mt-20">
+        <div class="max-w-2xl text-center lg:text-left space-y-6">
+            <h1 class="text-4xl lg:text-5xl font-bold opacity-0" id="title">GoPerpus : Perpus Online</h1>
+            <h2 class="text-xl lg:text-2xl font-semibold opacity-0" id="subtitle">Baca di mana saja</h2>
+            <p class="text-gray-400 opacity-0" id="desc">
+                GoPerpus adalah platform perpustakaan digital yang memudahkan pengguna untuk mengakses, mencari, dan membaca berbagai koleksi buku secara online. Dengan antarmuka yang responsif dan ramah pengguna, GoPerpus hadir untuk mendukung budaya literasi digital di era modern.
+            </p>
+            <a href="index.html">
+                <button id="button" class="px-6 py-3 bg-green-500 text-black font-semibold rounded-lg opacity-0 hover:bg-green-600 transition">
+                    Mulai Membaca
+                </button>
+            </a>
+        </div>
+        <img src="https://pnganime.com/images/download/luffy-gear-5-colored-transparent-png" alt="RTX 5090" class="w-full lg:w-1/2 max-w-lg mt-10 lg:mt-0 opacity-0" id="gpu">
+    </div>
+
+    <!-- Features Section -->
+    <div class="py-16 px-6 lg:px-20">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-gray-900 p-6 text-center rounded-lg scroll-offset">
+                <h3 class="text-lg font-semibold">Kategori buku lengkap dan mudah diakses</h3>
+              
+            </div>
+            <div class="bg-gray-900 p-6 text-center rounded-lg scroll-offset">
+                <h3 class="text-lg font-semibold">Fitur pencarian cerdas</h3>
+             
+            </div>
+            <div class="bg-gray-900 p-6 text-center rounded-lg scroll-offset">
+                <h3 class="text-lg font-semibold">Tampilan buku yang menarik dan informatif</h3>
+             
+            </div>
+            <div class="bg-gray-900 p-6 text-center rounded-lg scroll-offset">
+                <h3 class="text-lg font-semibold">Desain responsif yang nyaman diakses dari perangkat apa pun</h3>
+             
+            </div>
+        </div>
+    </div>
+
+    <script>
+        gsap.fromTo("#title", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 1 });
+        gsap.fromTo("#subtitle", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 1, delay: 0.3 });
+        gsap.fromTo("#desc", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 1, delay: 0.6 });
+        gsap.fromTo("#button", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1, delay: 0.9 });
+        gsap.fromTo("#gpu", { opacity: 0, x: 100 }, { opacity: 1, x: 0, duration: 1.2, delay: 1.2 });
+    </script>
+</body>
+</html>

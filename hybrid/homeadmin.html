@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Go Perpus</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script type="module">
+        // Import Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAq1nKP3DObMbxxNHi3f1y6yEmAxZV-nfA",
+            authDomain: "pilketos24.firebaseapp.com",
+            databaseURL: "https://pilketos24-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "pilketos24",
+            storageBucket: "pilketos24.firebasestorage.app",
+            messagingSenderId: "439227857159",
+            appId: "1:439227857159:web:1bdc12a9fb6886c9e7eda2",
+            measurementId: "G-JHMWN0YWDP"
+        };
+        </script>
+
+  <!-- Header -->
+  <header>
+    <h1>Go Perpus</h1>
+  </header>
+
+  <!-- Navbar -->
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Tentang</a></li>
+      <li><a href="#">Kontak</a></li>
+      <li><a href="#">Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- Slogan -->
+  <section class="slogan">
+    <h2>Go Perpus: Buku untuk Semua!</h2>
+    <button class="btn-start" onclick="window.location.href='#'">Ayo Mulai</button>
+  </section>
+
+  <!-- Categories -->
+  <section class="categories">
+    <div class="category" onclick="window.location.href='admin/admin.html'">
+      <h3>Edukasi</h3>
+    </div>
+    <div class="category" onclick="window.location.href='admin komik/adminkomik.html'">
+      <h3>Komik</h3>
+    </div>
+    <div class="category" onclick="window.location.href='admin novel/adminnovel.html'">
+      <h3>Novel</h3>
+    </div>
+    <div class="category" onclick="window.location.href='admin religi/adminreligi.html'">
+      <h3>Religi</h3>
+    </div>
+  </section>
+
+</body>
+</html>
